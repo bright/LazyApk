@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/StandardToolbar">
+
+        <TextView
+            android:id="@+id/addNewSource"
+            style="@style/GoldenPaddingSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:drawablePadding="@dimen/icon_padding"
+            android:textColor="@color/text_primary"
+            android:text="@string/add_source"
+            />
+        <TextView
+            android:id="@+id/removeEditedSource"
+            style="@style/GoldenPaddingSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:drawablePadding="@dimen/icon_padding"
+            android:textColor="@color/text_primary"
+            android:text="@string/remove_source"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/toolbar"
+        android:id="@+id/sourcesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listDivider="@drawable/divider"
+        />
+
+
+    <RelativeLayout
+        android:background="@color/background_material_light"
+        android:id="@+id/newSourceForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:focusableInTouchMode="true">
+
+        <ScrollView
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="50dp">
+
+            <LinearLayout
+                style="@style/GoldenPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/source_type"
+                    />
+
+                <Spinner
+                    android:id="@+id/newSourceType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </Spinner>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    />
+
+                <EditText
+                    android:id="@+id/editedSourceAddress"
+                    style="@style/FormField.Short"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/address_hint"
+                    android:inputType="textAutoComplete"
+                    />
+                <TextView
+                    style="@style/FormError"
+                    android:id="@+id/editedSourceAddressError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    />
+
+                <EditText
+                    android:id="@+id/editedSourceUserName"
+                    style="@style/FormField.Short"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/username_hint"
+                    android:inputType="textAutoComplete"
+                    />
+                <TextView
+                    style="@style/FormError"
+                    android:id="@+id/editedSourceUserNameError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/password"
+                    />
+
+                <EditText
+                    android:id="@+id/editedSourcePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    />
+                <TextView
+                    style="@style/FormError"
+                    android:id="@+id/editedSourcePasswordError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/save"
+                style="@style/SolidButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/save"/>
+            <Button
+                android:id="@+id/cancel"
+                style="@style/SolidButton.Secondary"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"/>
+            </LinearLayout>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+</RelativeLayout>

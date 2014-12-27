@@ -1,0 +1,138 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+           xmlns:app="http://schemas.android.com/apk/res-auto"
+           xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorButtonNormal">@color/color_button_normal</item>
+        <item name="android:textColorPrimary">@color/text_black</item>
+        <item name="android:textColorSecondary">@color/text_gray</item>
+        <item name="android:textColorHint">@color/text_gray_light</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/primary_dark</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/primary</item>
+        <item name="android:colorControlHighlight" tools:ignore="NewApi">@color/primary_semi</item>
+        <item name="android:actionBarStyle">@style/AppTheme.ToolbarActionBar</item>
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition" tools:ignore="NewApi">@android:transition/explode</item>
+        <item name="android:windowExitTransition" tools:ignore="NewApi">@android:transition/explode</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="actionMenuTextColor">@color/text_primary</item>
+        <!-- android:textColorSecondary is the color of the menu
+             overflow icon (three vertical dots) -->
+        <item name="android:textColorSecondary">@color/text_primary</item>
+    </style>
+    <style name="AppTheme.ToolbarActionBar">
+        <item name="android:titleTextStyle">@style/AppTheme.Toolbar</item>
+    </style>
+    <style name="AppTheme.ToolbarPopup" parent="ThemeOverlay.AppCompat.Light">
+        <item name="actionMenuTextColor">@color/text_primary</item>
+        <!-- android:textColorSecondary is the color of the menu
+             overflow icon (three vertical dots) -->
+        <item name="android:textColorSecondary">@color/text_primary</item>
+    </style>
+
+    <style name="AppTheme.Up">
+        <item name="android:displayOptions">homeAsUp</item>
+    </style>
+
+    <style name="PopupMenu">
+        <item name="android:popupBackground">@color/primary_dark</item>
+    </style>
+
+    <style name="FontAwesome">
+        <item name="fontPath">FontAwesome.otf</item>
+    </style>
+
+    <style name="GoldenPadding">
+        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingLeft">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/standard_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/standard_vertical_padding</item>
+    </style>
+    <style name="GoldenPaddingSmall">
+        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingLeft">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/small_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/small_vertical_padding</item>
+    </style>
+
+    <style name="Headline">
+        <item name="android:textSize">@dimen/abc_text_size_headline_material</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
+
+    <style name="SubHeadline" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
+
+    <style name="Label" parent="SubHeadline">
+        <item name="android:textColor">?android:textColorHint</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+
+    <style name="SolidButton" parent="SubHeadline">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:background">@drawable/solid_button</item>
+    </style>
+
+    <style name="SolidButton.Secondary">
+        <item name="android:background">@drawable/solid_button_secondary</item>
+    </style>
+
+    <style name="StandardToolbar">
+        <item name="android:theme">@style/AppTheme.Toolbar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="theme">@style/AppTheme.Toolbar</item>
+        <item name="popupTheme">@style/AppTheme.ToolbarPopup</item>
+    </style>
+
+    <style name="FormField">
+    </style>
+
+    <style name="FormField.Short">
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="FormError">
+        <item name="android:textColor">@color/failure_color</item>
+        <item name="android:layout_marginBottom">@dimen/tiny_vertical_padding</item>
+    </style>
+
+
+    <color name="primary">#f17e00</color>
+    <color name="primary_semi">#7ff17e00</color>
+    <color name="text_primary">#fff</color>
+    <color name="primary_dark">#ffad5700</color>
+    <color name="text_black">#333</color>
+    <color name="text_gray">#999</color>
+    <color name="text_gray_light">#AAA</color>
+    <dimen name="toolbar_icon_size">20sp</dimen>
+    <color name="success_color">#422fff12</color>
+    <color name="failure_color">#68ff100c</color>
+    <color name="color_button_normal">@color/primary</color>
+    <color name="color_button_pressed">@color/primary_dark</color>
+    <color name="color_button_secondary_normal">@color/text_gray_light</color>
+    <color name="color_button_secondary_pressed">@color/text_gray</color>
+</resources>

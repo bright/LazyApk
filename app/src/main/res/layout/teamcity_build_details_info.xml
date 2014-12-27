@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:transitionName="sharedElement"
+       tools:showIn="@layout/teamcity_apk_source"
+       style="@style/GoldenPadding"
+       tools:ignore="UnusedAttribute">
+
+    <TextView
+        style="@style/Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Shopscout Android"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:id="@+id/buildType"/>
+
+    <LinearLayout
+        android:layout_below="@id/buildType"
+        android:id="@+id/buildNumberContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Number"/>
+
+        <TextView
+            style="@style/SubHeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="34f455s4d2d3d3d3dad56asdf6a7adfa"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/buildNumber"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/buildWhen"
+        style="@style/SubHeadline"
+        android:layout_below="@id/buildNumberContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/buildComment"
+        style="@style/SubHeadline"
+        android:layout_below="@id/buildWhen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:scrollbars="vertical"
+        android:scrollHorizontally="false"
+        android:maxLines="5" />
+</RelativeLayout>
