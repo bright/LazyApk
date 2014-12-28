@@ -133,7 +133,7 @@
     <color name="primary">#f17e00</color>
     <color name="primary_semi">#7ff17e00</color>
     <color name="text_primary">#fff</color>
-    <color name="primary_dark">#ffad5700</color>
+    <color name="primary_dark">#ad5700</color>
     <color name="text_black">#333</color>
     <color name="text_gray">#999</color>
     <color name="text_gray_light">#AAA</color>
