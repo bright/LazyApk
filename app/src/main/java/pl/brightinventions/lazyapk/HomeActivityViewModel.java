@@ -41,11 +41,27 @@ public class HomeActivityViewModel implements RefreshSource {
         });
     }
 
+    public Observable<?> fetchAllProjects() {
+        return projectSources.fetchProjects()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<AllProjectsFetchResult>() {
+                    @Override
+                    public void call(AllProjectsFetchResult value) {
+                        projectOverviews = Linq.toList(value.getAllProjects());
+                        mainListAdapter.notifyDataSetChanged();
+                        observeRefreshing.onNext(false);
+                        observeEmptyProjects.onNext(projectOverviews.isEmpty());
+                    }
+                });
+    }
+
     public Observable<Boolean> observeEmptyProjects() {
         return observeEmptyProjects;
     }
 
-    public Observable<ProjectOverview> openProjectDetails() {return openProjectDetails; }
+    public Observable<ProjectOverview> openProjectDetails() {
+        return openProjectDetails;
+    }
 
     public RecyclerView.Adapter createProjectListAdapter(final Context context) {
         return mainListAdapter = new RecyclerView.Adapter<ProjectViewHolder>() {
@@ -67,24 +83,11 @@ public class HomeActivityViewModel implements RefreshSource {
         };
     }
 
-    public Observable<?> fetchAllProjects() {
-        return projectSources.fetchProjects()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<AllProjectsFetchResult>() {
-                    @Override
-                    public void call(AllProjectsFetchResult value) {
-                        projectOverviews = Linq.toList(value.getAllProjects());
-                        mainListAdapter.notifyDataSetChanged();
-                        observeRefreshing.onNext(false);
-                        observeEmptyProjects.onNext(projectOverviews.isEmpty());
-                    }
-                });
-    }
-
     @Override
     public RefreshBehavior getRefreshBehavior() {
         return refreshBehavior;
     }
+
 
     class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.projectName) TextView projectName;

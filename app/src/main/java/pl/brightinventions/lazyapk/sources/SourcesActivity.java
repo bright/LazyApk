@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,8 +38,6 @@ public class SourcesActivity extends ActionBarActivity {
     @InjectView(R.id.newSourceForm) View newSourceForm;
     @InjectView(R.id.addNewSource) TextView addNewSource;
     @InjectView(R.id.removeEditedSource) TextView removeEditedSource;
-    @InjectView(R.id.save) Button save;
-    @InjectView(R.id.cancel) Button cancel;
     @InjectView(R.id.newSourceType) Spinner editedSourceType;
     @InjectView(R.id.editedSourceAddress) TextView editedSourceAddress;
     @InjectView(R.id.editedSourceAddressError) TextView editedSourceAddressError;
@@ -54,6 +50,10 @@ public class SourcesActivity extends ActionBarActivity {
     SourcesActivityViewModel viewModel;
 
     private CompositeSubscription subscription;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, SourcesActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +75,19 @@ public class SourcesActivity extends ActionBarActivity {
         subscription.add(ObserveHelper.bindVisibility(viewModel.observeIsAddVisible(), addNewSource));
         subscription.add(ObserveHelper.bindVisibility(viewModel.observeIsRemoveVisible(), removeEditedSource));
 
-        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceAddress(), editedSourceAddress) );
-        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceAddressError(), editedSourceAddressError) );
-        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceUserName(), editedSourceUserName) );
-        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceUserNameError(), editedSourceUserNameError) );
-        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourcePassword(), editedSourcePassword) );
-        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourcePasswordError(), editedSourcePasswordError) );
+        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceAddress(), editedSourceAddress));
+        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceAddressError(), editedSourceAddressError));
+        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceUserName(), editedSourceUserName));
+        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourceUserNameError(), editedSourceUserNameError));
+        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourcePassword(), editedSourcePassword));
+        subscription.add(ObserveHelper.bindText(viewModel.observeEditedSourcePasswordError(), editedSourcePasswordError));
+
+        newSourceForm.setVisibility(View.GONE);
         newSourceForm.setTranslationY(ViewUtils.getDisplayHeight(this));
         subscription.add(viewModel.observeIsAddVisible().subscribe(new Action1<Boolean>() {
             @Override
             public void call(final Boolean newSourceInvisible) {
+                newSourceForm.setVisibility(View.VISIBLE);
                 ViewUtils.clearFocusAndKeyboard(newSourceForm);
                 int displayHeight = ViewUtils.getDisplayHeight(SourcesActivity.this);
                 newSourceForm.animate().translationY(newSourceInvisible ? displayHeight : 0)
@@ -97,53 +100,9 @@ public class SourcesActivity extends ActionBarActivity {
         editedSourceType.setSelection(0);
     }
 
-    @OnItemSelected(R.id.newSourceType)
-    public void onSourceTypeSelected(int position){
-        viewModel.onSourceTypeSelected(position);
-    }
-
-    @OnClick(R.id.addNewSource)
-    public void onAddNewSource(){
-        viewModel.onAddNewSource();
-    }
-
-    @OnClick(R.id.save)
-    public void onSave(){
-        ViewUtils.clearFocusAndKeyboard(newSourceForm);
-        subscription.add(ObserveHelper.showProgressUntilComplete(loader, viewModel.onSave(getResources())));
-    }
-
-    @OnTextChanged(R.id.editedSourceAddress)
-    public void onAddressChanged(CharSequence address){
-        viewModel.setEditedSourceAddress(address);
-    }
-    @OnTextChanged(R.id.editedSourceUserName)
-    public void onUserNameChanged(CharSequence userName){
-        viewModel.setEditedSourceUsername(userName);
-    }
-    @OnTextChanged(R.id.editedSourcePassword)
-    public void onPasswordChanged(CharSequence password){
-        viewModel.setEditedSourcePassword(password);
-    }
-
-    @OnClick(R.id.cancel)
-    public void onCancel(){
-        viewModel.onCancel();
-    }
-
-    @OnClick(R.id.removeEditedSource)
-    public void onRemoveEditedSource(){viewModel.onRemoveEditedSource(); }
-
-    @Override
-    public void onBackPressed() {
-        if(!viewModel.handleBackPressed()){
-            super.onBackPressed();
-        }
-    }
-
     @Override
     protected void onDestroy() {
-        if(subscription != null){
+        if (subscription != null) {
             subscription.unsubscribe();
             subscription = null;
         }
@@ -151,12 +110,55 @@ public class SourcesActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    public void onBackPressed() {
+        if (!viewModel.handleBackPressed()) {
+            super.onBackPressed();
+        }
     }
 
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, SourcesActivity.class);
-        return intent;
+    @OnItemSelected(R.id.newSourceType)
+    public void onSourceTypeSelected(int position) {
+        viewModel.onSourceTypeSelected(position);
+    }
+
+    @OnClick(R.id.addNewSource)
+    public void onAddNewSource() {
+        viewModel.onAddNewSource();
+    }
+
+    @OnClick(R.id.save)
+    public void onSave() {
+        ViewUtils.clearFocusAndKeyboard(newSourceForm);
+        subscription.add(ObserveHelper.showProgressUntilComplete(loader, viewModel.onSave(getResources())));
+    }
+
+    @OnTextChanged(R.id.editedSourceAddress)
+    public void onAddressChanged(CharSequence address) {
+        viewModel.setEditedSourceAddress(address);
+    }
+
+    @OnTextChanged(R.id.editedSourceUserName)
+    public void onUserNameChanged(CharSequence userName) {
+        viewModel.setEditedSourceUsername(userName);
+    }
+
+    @OnTextChanged(R.id.editedSourcePassword)
+    public void onPasswordChanged(CharSequence password) {
+        viewModel.setEditedSourcePassword(password);
+    }
+
+    @OnClick(R.id.cancel)
+    public void onCancel() {
+        viewModel.onCancel();
+    }
+
+    @OnClick(R.id.removeEditedSource)
+    public void onRemoveEditedSource() {
+        viewModel.onRemoveEditedSource();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 }

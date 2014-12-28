@@ -9,13 +9,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func0;
-import rx.functions.Func1;
 import rx.subjects.BehaviorSubject;
 
 public class RefreshBehavior {
     private final Toaster toaster;
     private BehaviorSubject<Boolean> observeIsRefreshing = BehaviorSubject.create(false);
     private Func0<Observable<?>> refreshAction;
+    private boolean isRefreshing;
 
     @Inject
     public RefreshBehavior(Toaster toaster) {
@@ -26,8 +26,18 @@ public class RefreshBehavior {
         return observeIsRefreshing;
     }
 
+    public void whenRefreshingDo(Func0<Observable<?>> makeObservable) {
+        refreshAction = makeObservable;
+    }
+
+    public void refreshIfNotRefreshing() {
+        if (!isRefreshing) {
+            refresh();
+        }
+    }
+
     public Subscription refresh() {
-        observeIsRefreshing.onNext(true);
+        refreshingStarted();
         return refreshAction.call().observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Object>() {
             @Override
             public void call(Object o) {
@@ -36,17 +46,23 @@ public class RefreshBehavior {
             @Override
             public void call(Throwable throwable) {
                 toaster.onError(throwable);
-                observeIsRefreshing.onNext(false);
+                refreshingStopped();
             }
         }, new Action0() {
             @Override
             public void call() {
-                observeIsRefreshing.onNext(false);
+                refreshingStopped();
             }
         });
     }
 
-    public void whenRefreshingDo(Func0<Observable<?>> makeObservable) {
-        refreshAction = makeObservable;
+    private void refreshingStarted() {
+        isRefreshing = true;
+        observeIsRefreshing.onNext(true);
+    }
+
+    private void refreshingStopped() {
+        observeIsRefreshing.onNext(false);
+        isRefreshing = false;
     }
 }

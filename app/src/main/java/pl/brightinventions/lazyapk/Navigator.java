@@ -2,11 +2,13 @@ package pl.brightinventions.lazyapk;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
@@ -17,12 +19,10 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 public class Navigator {
-
-    private final Context context;
+    private static final Logger LOG = LoggerFactory.getLogger(Navigator.class.getSimpleName());
 
     @Inject
-    public Navigator(@AppContext Context context) {
-        this.context = context;
+    public Navigator() {
     }
 
     public void showBuildSources(Activity currentActivity) {
@@ -44,22 +44,13 @@ public class Navigator {
         });
     }
 
-    public Subscription observeOpenApkSource(Observable<ProjectApkSource> observable, final Activity activity, final Func1<ProjectApkSource,View> sharedViewFactory) {
-        return observable.subscribe(new Action1<ProjectApkSource>() {
-            @Override
-            public void call(ProjectApkSource projectApkSource) {
-                Intent intent = projectApkSource.newDetailsIntent(activity);
-                startActivity(intent, activity, sharedViewFactory.call(projectApkSource));
-            }
-        });
-    }
-
     private void startActivity(Intent intent, Activity activity) {
         startActivity(intent, activity, null);
     }
 
     private void startActivity(Intent intent, Activity activity, View sharedView) {
-        if(Build.VERSION.SDK_INT >= 16){
+        LOG.trace("Will start intent {} from activity {} (shared view: {})", intent, activity, sharedView);
+        if (Build.VERSION.SDK_INT >= 16) {
             activity.startActivity(intent, makeSceneTransition(activity, sharedView));
         } else {
             activity.startActivity(intent);
@@ -68,9 +59,10 @@ public class Navigator {
     }
 
     private Bundle makeSceneTransition(Activity activity, View sharedView) {
-        if(Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            //noinspection unchecked
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity);
-            if(sharedView != null) {
+            if (sharedView != null) {
                 options = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, sharedView.getTransitionName());
             }
             return options.toBundle();
@@ -78,6 +70,16 @@ public class Navigator {
             return null;
         }
 
+    }
+
+    public Subscription observeOpenApkSource(Observable<ProjectApkSource> observable, final Activity activity, final Func1<ProjectApkSource, View> sharedViewFactory) {
+        return observable.subscribe(new Action1<ProjectApkSource>() {
+            @Override
+            public void call(ProjectApkSource projectApkSource) {
+                Intent intent = projectApkSource.newDetailsIntent(activity);
+                startActivity(intent, activity, sharedViewFactory.call(projectApkSource));
+            }
+        });
     }
 
     public void openSources(Activity activity) {

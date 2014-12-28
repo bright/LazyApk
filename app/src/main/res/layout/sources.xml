@@ -9,50 +9,41 @@
 
         <TextView
             android:id="@+id/addNewSource"
-            style="@style/GoldenPaddingSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:drawablePadding="@dimen/icon_padding"
-            android:textColor="@color/text_primary"
+            style="@style/ToolbarAction"
             android:text="@string/add_source"
             />
+
         <TextView
             android:id="@+id/removeEditedSource"
-            style="@style/GoldenPaddingSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:drawablePadding="@dimen/icon_padding"
-            android:textColor="@color/text_primary"
+            style="@style/ToolbarAction"
             android:text="@string/remove_source"
             />
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/toolbar"
         android:id="@+id/sourcesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:listDivider="@drawable/divider"
         />
 
 
     <RelativeLayout
-        android:background="@color/background_material_light"
         android:id="@+id/newSourceForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:background="@color/background_material_light"
         android:focusableInTouchMode="true">
 
         <ScrollView
-            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="50dp">
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="50dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 style="@style/GoldenPadding"
@@ -86,9 +77,10 @@
                     android:hint="@string/address_hint"
                     android:inputType="textAutoComplete"
                     />
+
                 <TextView
-                    style="@style/FormError"
                     android:id="@+id/editedSourceAddressError"
+                    style="@style/FormError"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -106,9 +98,10 @@
                     android:hint="@string/username_hint"
                     android:inputType="textAutoComplete"
                     />
+
                 <TextView
-                    style="@style/FormError"
                     android:id="@+id/editedSourceUserNameError"
+                    style="@style/FormError"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -125,41 +118,45 @@
                     android:hint="@string/password_hint"
                     android:inputType="textPassword"
                     />
+
                 <TextView
-                    style="@style/FormError"
                     android:id="@+id/editedSourcePasswordError"
+                    style="@style/FormError"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </ScrollView>
+
         <LinearLayout
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/save"
                 style="@style/SolidButton"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/save"/>
+
             <Button
                 android:id="@+id/cancel"
                 style="@style/SolidButton.Secondary"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/cancel"/>
-            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/loader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
         android:layout_centerInParent="true"
+        android:indeterminate="true"
         android:visibility="gone"
         />
 </RelativeLayout>

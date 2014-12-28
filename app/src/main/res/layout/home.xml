@@ -2,11 +2,22 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
                 tools:context=".HomeActivity"
-    android:animateLayoutChanges="true"
-    tools:ignore="MissingPrefix">
+                tools:ignore="MissingPrefix">
 
-    <include layout="@layout/empty_toolbar"/>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/StandardToolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:showIn="@layout/home">
+
+        <TextView
+            android:id="@+id/sources"
+            style="@style/ToolbarAction"
+            android:text="@string/sources"/>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshable"
@@ -22,42 +33,47 @@
             />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
     <RelativeLayout
         android:id="@+id/emptyBuildsContainer"
-        android:visibility="gone"
-        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
+        android:layout_below="@id/toolbar"
+        android:animateLayoutChanges="true"
+        android:visibility="gone">
+
         <TextView
-            android:layout_marginTop="50dp"
-            android:textSize="25sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/no_builds_available"/>
+            android:layout_marginTop="50dp"
+            android:text="@string/no_builds_available"
+            android:textSize="25sp"/>
+
         <LinearLayout
             android:id="@+id/addBuildSource"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="horizontal">
+
             <TextView
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_medium"
+                style="@style/FontAwesome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fa_link"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                style="@style/FontAwesome"/>
-            <TextView
+                android:text="@string/fa_link"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_medium"/>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/add_source"/>
+                android:text="@string/add_source"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_medium"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
