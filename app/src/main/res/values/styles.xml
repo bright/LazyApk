@@ -20,8 +20,12 @@
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
 
         <!-- specify enter and exit transitions -->
-        <item name="android:windowEnterTransition" tools:ignore="NewApi">@android:transition/explode</item>
-        <item name="android:windowExitTransition" tools:ignore="NewApi">@android:transition/explode</item>
+        <item name="android:windowEnterTransition" tools:ignore="NewApi">
+            @android:transition/explode
+        </item>
+        <item name="android:windowExitTransition" tools:ignore="NewApi">
+            @android:transition/explode
+        </item>
     </style>
 
     <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
@@ -32,9 +36,11 @@
              overflow icon (three vertical dots) -->
         <item name="android:textColorSecondary">@color/text_primary</item>
     </style>
+
     <style name="AppTheme.ToolbarActionBar">
         <item name="android:titleTextStyle">@style/AppTheme.Toolbar</item>
     </style>
+
     <style name="AppTheme.ToolbarPopup" parent="ThemeOverlay.AppCompat.Light">
         <item name="actionMenuTextColor">@color/text_primary</item>
         <!-- android:textColorSecondary is the color of the menu
@@ -55,15 +61,19 @@
     </style>
 
     <style name="GoldenPadding">
-        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/standard_horizontal_padding
+        </item>
         <item name="android:paddingLeft">@dimen/standard_horizontal_padding</item>
-        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/standard_horizontal_padding
+        </item>
         <item name="android:paddingRight">@dimen/standard_horizontal_padding</item>
         <item name="android:paddingTop">@dimen/standard_vertical_padding</item>
         <item name="android:paddingBottom">@dimen/standard_vertical_padding</item>
     </style>
+
     <style name="GoldenPaddingSmall">
-        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/small_horizontal_padding
+        </item>
         <item name="android:paddingLeft">@dimen/small_horizontal_padding</item>
         <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/small_horizontal_padding</item>
         <item name="android:paddingRight">@dimen/small_horizontal_padding</item>
@@ -83,7 +93,8 @@
 
     <style name="Label" parent="SubHeadline">
         <item name="android:textColor">?android:textColorHint</item>
-        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/standard_horizontal_padding</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/standard_horizontal_padding
+        </item>
         <item name="android:paddingRight">12dp</item>
     </style>
 
@@ -138,7 +149,6 @@
     <color name="text_gray">#999</color>
     <color name="text_gray_light">#AAA</color>
     <dimen name="toolbar_icon_size">20sp</dimen>
-    <color name="success_color">#422fff12</color>
     <color name="failure_color">#68ff100c</color>
     <color name="color_button_normal">@color/primary</color>
     <color name="color_button_pressed">@color/primary_dark</color>

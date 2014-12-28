@@ -26,6 +26,10 @@ public class DownloadHistory {
                 .apply();
     }
 
+    private String stateKey(String id) {
+        return id + "_state";
+    }
+
     public void downloadCompletedSuccess(String id, long downloadId) {
         apkIdToDownloadId.edit()
                 .putLong(id, downloadId)
@@ -44,11 +48,4 @@ public class DownloadHistory {
         return apkIdToDownloadId.getLong(id, 0);
     }
 
-    private String stateKey(String id) {
-        return id + "_state";
-    }
-
-    public boolean isSuccess(String id) {
-        return apkIdToDownloadId.getString(stateKey(id), "FAILURE").equalsIgnoreCase("SUCCESS");
-    }
 }
