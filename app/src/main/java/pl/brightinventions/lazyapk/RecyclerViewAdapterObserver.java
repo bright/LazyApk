@@ -24,7 +24,9 @@ public abstract class RecyclerViewAdapterObserver<TItem, TViewHolder extends Vie
     protected RecyclerViewAdapterObserver(ObservableCollection<TItem> collection, int delay, TimeUnit delayUnit) {
         items = Linq.toList(collection);
         addSubscription(collection.itemInsertedAt()
-                .delay(delay, delayUnit, AndroidSchedulers.mainThread()).subscribe(new Action1<Pair<TItem, Integer>>() {
+                .delay(delay, delayUnit, AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Pair<TItem, Integer>>() {
                     @Override
                     public void call(Pair<TItem, Integer> tItemIntegerPair) {
                         items.add(tItemIntegerPair.second, tItemIntegerPair.first);
@@ -32,7 +34,9 @@ public abstract class RecyclerViewAdapterObserver<TItem, TViewHolder extends Vie
                     }
                 }));
         addSubscription(collection.itemsAtRangeRemoved()
-                .delay(delay, delayUnit, AndroidSchedulers.mainThread()).subscribe(new Action1<Pair<Integer, Integer>>() {
+                .delay(delay, delayUnit, AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Pair<Integer, Integer>>() {
                     @Override
                     public void call(Pair<Integer, Integer> integerIntegerPair) {
                         int start = integerIntegerPair.first;
@@ -59,15 +63,8 @@ public abstract class RecyclerViewAdapterObserver<TItem, TViewHolder extends Vie
         return compositeSubscription;
     }
 
-    public void removeSubscription(Subscription subscription) {
-        compositeSubscription.remove(subscription);
-    }
-
     public final int getItemCount() {
         return items.size();
     }
 
-    protected void setEventsDelay(int i, TimeUnit milliseconds) {
-
-    }
 }
