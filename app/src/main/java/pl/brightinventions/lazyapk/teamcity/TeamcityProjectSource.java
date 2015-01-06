@@ -24,6 +24,7 @@ import pl.brightinventions.lazyapk.ProjectApkSourceFetchResult;
 import pl.brightinventions.lazyapk.ProjectOverview;
 import pl.brightinventions.lazyapk.ProjectSource;
 import pl.brightinventions.lazyapk.ProjectSourceFetchResult;
+import pl.brightinventions.lazyapk.StringUtils;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
@@ -121,7 +122,7 @@ public class TeamcityProjectSource implements ProjectSource {
     @Override
     public Observable<ProjectApkSourceFetchResult> fetchApkSources(ProjectOverview projectOverview) {
         TeamcityProjectResponse project = (TeamcityProjectResponse) projectOverview;
-        return getRemoteApi().getProjectDetails(removeFirstCharIfSlash(project.href))
+        return getRemoteApi().getProjectDetails(StringUtils.removeFirstCharIfSlash(project.href))
                 .flatMapIterable(new Func1<TeamcityProjectResponse, Iterable<TeamcityProjectBuildType>>() {
                     @Override
                     public Iterable<TeamcityProjectBuildType> call(TeamcityProjectResponse teamcityProject) {
@@ -152,7 +153,7 @@ public class TeamcityProjectSource implements ProjectSource {
     public Observable<ProjectApkSource> fetchApkSourceDetails(final ProjectApkSource apkSourceAt) {
         final TeamcityBuildResponse buildResponse = (TeamcityBuildResponse) apkSourceAt;
         LOG.trace("Fetch build details of {}", buildResponse);
-        return getRemoteApi().getBuildDetails(removeFirstCharIfSlash(buildResponse.href))
+        return getRemoteApi().getBuildDetails(StringUtils.removeFirstCharIfSlash(buildResponse.href))
                 .flatMap(new Func1<TeamcityBuildResponse, Observable<TeamcityBuildResponse>>() {
                     @Override
                     public Observable<TeamcityBuildResponse> call(final TeamcityBuildResponse teamcityBuildResponse) {
@@ -180,41 +181,13 @@ public class TeamcityProjectSource implements ProjectSource {
                 });
     }
 
-    public Observable<TeamcityBuildArtifactsFile> fetchArtifactsChildren(TeamcityBuildArtifactsFile directory) {
-        return getRemoteApi().getArtifactFiles(removeFirstCharIfSlash(directory.children.href))
-                .flatMapIterable(new Func1<TeamcityBuildArtifactsFiles, Iterable<TeamcityBuildArtifactsFile>>() {
-                    @Override
-                    public Iterable<TeamcityBuildArtifactsFile> call(TeamcityBuildArtifactsFiles teamcityBuildArtifactsFiles) {
-                        return teamcityBuildArtifactsFiles.files;
-                    }
-                });
-    }
-
     private Observable<TeamcityBuildChange> fetchBuildChangeDetails(final TeamcityBuildChange first) {
-        String href = removeFirstCharIfSlash(first.href);
+        String href = StringUtils.removeFirstCharIfSlash(first.href);
         return getRemoteApi().getBuildChangeDetails(href).map(new Func1<TeamcityBuildChange, TeamcityBuildChange>() {
             @Override
             public TeamcityBuildChange call(TeamcityBuildChange teamcityBuildChange) {
                 first.readDetailsFrom(teamcityBuildChange);
                 return first;
-            }
-        });
-    }
-
-    private String removeFirstCharIfSlash(String href) {
-        if(href.startsWith("/")){
-            return href.substring(1);
-        }
-        return href;
-    }
-
-    private Observable<TeamcityBuildTypeApkSourcesFetchResult> fetchApkSourcesFromBuildType(final TeamcityProjectBuildType buildType) {
-        return getRemoteApi().getBuildsForBuildType(removeFirstCharIfSlash(buildType.href)).map(new Func1<TeamcityBuildsResponse, TeamcityBuildTypeApkSourcesFetchResult>() {
-            @Override
-            public TeamcityBuildTypeApkSourcesFetchResult call(TeamcityBuildsResponse teamcityBuildsResponse) {
-                TeamcityBuildTypeApkSourcesFetchResult result = new TeamcityBuildTypeApkSourcesFetchResult(buildType);
-                result.addResults(teamcityBuildsResponse.build);
-                return result;
             }
         });
     }
@@ -228,36 +201,58 @@ public class TeamcityProjectSource implements ProjectSource {
         return project.webUrl.startsWith(address);
     }
 
-    public String getHost() {
-        try {
-            URI uri = new URI(address);
-            return uri.getHost();
-        } catch (URISyntaxException e) {
-            LOG.error("Failed to parse teamcity address {}", address, e);
-            return address.replace("http://","").replace("https://", "").replaceAll(":.*$", "").replaceAll("/.*$", "");
-        }
+    private Observable<TeamcityBuildTypeApkSourcesFetchResult> fetchApkSourcesFromBuildType(final TeamcityProjectBuildType buildType) {
+        return getRemoteApi().getBuildsForBuildType(StringUtils.removeFirstCharIfSlash(buildType.href)).map(new Func1<TeamcityBuildsResponse, TeamcityBuildTypeApkSourcesFetchResult>() {
+            @Override
+            public TeamcityBuildTypeApkSourcesFetchResult call(TeamcityBuildsResponse teamcityBuildsResponse) {
+                TeamcityBuildTypeApkSourcesFetchResult result = new TeamcityBuildTypeApkSourcesFetchResult(buildType);
+                result.addResults(teamcityBuildsResponse.build);
+                return result;
+            }
+        });
+    }
+
+    public Observable<TeamcityBuildArtifactsFile> fetchArtifactsChildren(TeamcityBuildArtifactsFile directory) {
+        return getRemoteApi().getArtifactFiles(StringUtils.removeFirstCharIfSlash(directory.children.href))
+                .flatMapIterable(new Func1<TeamcityBuildArtifactsFiles, Iterable<TeamcityBuildArtifactsFile>>() {
+                    @Override
+                    public Iterable<TeamcityBuildArtifactsFile> call(TeamcityBuildArtifactsFiles teamcityBuildArtifactsFiles) {
+                        return teamcityBuildArtifactsFiles.files;
+                    }
+                });
     }
 
     public DownloadAbleApk makeDownloadableApk(TeamcityBuildResponse buildResponse, TeamcityBuildArtifactsFile currentItem) {
         ensureRemoteApiClientCreated();
         String uniqueFileName = String.format("%s_%s_%s_%s", getHost(), buildResponse.getProjectOverView().getName(), buildResponse.getId(), currentItem.name);
-        DownloadAbleApk apk = new DownloadAbleApk(address + removeFirstCharIfSlash(currentItem.content.href), uniqueFileName);
+        DownloadAbleApk apk = new DownloadAbleApk(StringUtils.appendSlashIfNotLast(address) + StringUtils.removeFirstCharIfSlash(currentItem.content.href), uniqueFileName);
         boolean addedCookie = false;
         try {
             List<HttpCookie> httpCookies = cookieManager.getCookieStore().get(new URI(currentItem.content.href));
-            for(HttpCookie cookie:httpCookies){
+            for (HttpCookie cookie : httpCookies) {
                 apk.addRequestHeader("Cookie", cookie.toString());
                 addedCookie = true;
             }
         } catch (URISyntaxException e) {
             LOG.warn("Failed to parse current item content href {}", currentItem.content.href, e);
         }
-        if(!addedCookie){
-            for(Pair<String,String> header:credentials.getHeaders()){
+        if (!addedCookie) {
+            for (Pair<String, String> header : credentials.getHeaders()) {
                 apk.addRequestHeader(header.first, header.second);
             }
         }
         apk.setName(currentItem.name);
         return apk;
     }
+
+    public String getHost() {
+        try {
+            URI uri = new URI(address);
+            return uri.getHost();
+        } catch (URISyntaxException e) {
+            LOG.error("Failed to parse teamcity address {}", address, e);
+            return address.replace("http://", "").replace("https://", "").replaceAll(":.*$", "").replaceAll("/.*$", "");
+        }
+    }
+
 }

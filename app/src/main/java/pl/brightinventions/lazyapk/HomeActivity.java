@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.inject.Inject;
 
 import butterknife.InjectView;
@@ -21,6 +24,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class HomeActivity extends ActionBarActivity {
+    private static final Logger LOG = LoggerFactory.getLogger(HomeActivity.class.getSimpleName());
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
     @InjectView(R.id.mainList) RecyclerView mainList;
@@ -70,7 +74,7 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        homeActivityViewModel.getRefreshBehavior().refreshIfNotRefreshing();
+        homeActivityViewModel.refreshIfEmpty();
     }
 
     @OnClick(R.id.addBuildSource)
@@ -81,6 +85,7 @@ public class HomeActivity extends ActionBarActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
+        LOG.trace("attachBaseContext {}", newBase);
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 }

@@ -83,11 +83,16 @@ public class HomeActivityViewModel implements RefreshSource {
         };
     }
 
+    public void refreshIfEmpty() {
+        if (projectOverviews.isEmpty()) {
+            getRefreshBehavior().refreshIfNotRefreshing();
+        }
+    }
+
     @Override
     public RefreshBehavior getRefreshBehavior() {
         return refreshBehavior;
     }
-
 
     class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.projectName) TextView projectName;

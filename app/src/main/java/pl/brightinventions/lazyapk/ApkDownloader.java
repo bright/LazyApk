@@ -75,16 +75,6 @@ public class ApkDownloader {
         return fileAction1.call(filesDir);
     }
 
-    public Observable<DownloadAbleApkProgress> getAndObserveDownloadState(final DownloadAbleApk downloadAbleApk){
-        String id = downloadAbleApk.getId();
-        if(downloadHistory.wasDownloadedInPast(id)){
-            long downloadId = downloadHistory.getDownloadId(id);
-            return  getAndObserveDownloadState(downloadId, downloadAbleApk);
-        } else {
-            return Observable.just(new DownloadAbleApkProgress(downloadAbleApk));
-        }
-    }
-
     private Observable<DownloadAbleApkProgress> getAndObserveDownloadState(final long downloadId, final DownloadAbleApk downloadAbleApk) {
         return Observable.create(new GetAndObserveDownloadState(downloadId, downloadAbleApk))
                 .subscribeOn(Schedulers.io())
@@ -100,6 +90,7 @@ public class ApkDownloader {
             }
         }
         request.setDescription(downloadAbleApk.getNameOrFileName());
+        request.setTitle(downloadAbleApk.getNameOrFileName());
         request.setAllowedOverRoaming(false);
         Uri uri = Uri.fromFile(targetFile);
         request.setDestinationUri(uri);
@@ -113,6 +104,16 @@ public class ApkDownloader {
         downloadHistory.downloadStarted(downloadAbleApk.getId(), downloadId);
         LOG.info("Enqueued download item {} with id {}", downloadAbleApk, downloadId);
         return downloadId;
+    }
+
+    public Observable<DownloadAbleApkProgress> getAndObserveDownloadState(final DownloadAbleApk downloadAbleApk) {
+        String id = downloadAbleApk.getId();
+        if (downloadHistory.wasDownloadedInPast(id)) {
+            long downloadId = downloadHistory.getDownloadId(id);
+            return getAndObserveDownloadState(downloadId, downloadAbleApk);
+        } else {
+            return Observable.just(new DownloadAbleApkProgress(downloadAbleApk));
+        }
     }
 
     private DownloadAbleApkProgress queryDownloadProgress(DownloadAbleApk downloadAbleApk, long downloadId) {
