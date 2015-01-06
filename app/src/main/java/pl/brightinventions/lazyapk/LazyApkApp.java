@@ -3,11 +3,16 @@ package pl.brightinventions.lazyapk;
 import android.app.Application;
 import android.util.Pair;
 
+import java.util.logging.Filter;
+import java.util.logging.LogRecord;
+
 import javax.inject.Inject;
 
 import pl.brightinventions.lazyapk.sources.ProjectSourceConfiguration;
 import pl.brightinventions.lazyapk.sources.ProjectSourceConfigurationCollection;
 import pl.brightinventions.lazyapk.sources.ProjectSourceFactory;
+import pl.brightinventions.slf4android.LoggerConfiguration;
+import pl.brightinventions.slf4android.NotifyDeveloperHandler;
 import rx.functions.Action1;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -27,6 +32,17 @@ public class LazyApkApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LoggerConfiguration configuration = LoggerConfiguration.configuration();
+        NotifyDeveloperHandler notifyDeveloperHandler = configuration.notifyDeveloperHandler(this, "team@brightinventions.pl");
+        notifyDeveloperHandler.setFilter(new Filter() {
+            @Override
+            public boolean isLoggable(LogRecord record) {
+                return false;
+            }
+        });
+        notifyDeveloperHandler.notifyWhenDeviceIsShaken();
+        configuration.addHandlerToRootLogger(notifyDeveloperHandler);
+
         CalligraphyConfig.initDefault(R.attr.fontPath);
 
         DependencyGraph.addModule(new LazyApkModule(this));
@@ -49,6 +65,7 @@ public class LazyApkApp extends Application {
                 initProjectSources();
             }
         });
+
     }
 
     private void initProjectSources() {
