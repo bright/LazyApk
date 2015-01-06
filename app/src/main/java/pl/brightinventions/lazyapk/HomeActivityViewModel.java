@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func0;
 import rx.subjects.PublishSubject;
@@ -48,6 +49,10 @@ public class HomeActivityViewModel implements RefreshSource {
                     @Override
                     public void call(AllProjectsFetchResult value) {
                         projectOverviews = Linq.toList(value.getAllProjects());
+                    }
+                }).doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
                         mainListAdapter.notifyDataSetChanged();
                         observeRefreshing.onNext(false);
                         observeEmptyProjects.onNext(projectOverviews.isEmpty());

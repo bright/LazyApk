@@ -27,6 +27,7 @@
     <string name="username_required">User name is required</string>
     <string name="password_required">Password is required</string>
     <string name="remove_source">Remove</string>
+    <string name="fa_plus"></string>
 
     <string-array name="source_types">
         <item>Team City</item>

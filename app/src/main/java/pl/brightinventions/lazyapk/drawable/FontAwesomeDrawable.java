@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 
+import pl.brightinventions.lazyapk.R;
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class FontAwesomeDrawable extends TextDrawable {
@@ -17,25 +18,30 @@ public class FontAwesomeDrawable extends TextDrawable {
     public static FontAwesomeDrawable chevronLeft(Context context) {
         return fromText(context, "");
     }
-    public static FontAwesomeDrawable arrowLeft(Context context) {
-        return fromText(context, "");
-    }
-    public static FontAwesomeDrawable plus(Context context) {
-        return fromText(context, "");
-    }
-    public static FontAwesomeDrawable save(Context context) {
-        return fromText(context, "");
-    }
-    public static FontAwesomeDrawable cancel(Context context) {
-        return fromText(context, "");
-    }
-    public static FontAwesomeDrawable trash(Context context) {
-        return fromText(context, "");
-    }
 
     private static FontAwesomeDrawable fromText(Context context, String text) {
         FontAwesomeDrawable textDrawable = new FontAwesomeDrawable(context);
         textDrawable.setText(text);
         return textDrawable;
+    }
+
+    public static FontAwesomeDrawable arrowLeft(Context context) {
+        return fromText(context, "");
+    }
+
+    public static FontAwesomeDrawable plus(Context context) {
+        return fromText(context, context.getString(R.string.fa_plus));
+    }
+
+    public static FontAwesomeDrawable save(Context context) {
+        return fromText(context, "");
+    }
+
+    public static FontAwesomeDrawable cancel(Context context) {
+        return fromText(context, "");
+    }
+
+    public static FontAwesomeDrawable trash(Context context) {
+        return fromText(context, "");
     }
 }
