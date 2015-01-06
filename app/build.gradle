@@ -12,6 +12,21 @@ android {
         versionName "1.0"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("LazyApk.keystore")
+            storePassword System.getenv("LazyApkPassword")
+            keyAlias "LazyApk"
+            keyPassword System.getenv("LazyApkPassword")
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -25,7 +40,7 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:recyclerview-v7:21.0.3'
 
-    compile('pl.brightinventions:slf4android:0.0.8@aar'){
+    compile('pl.brightinventions:slf4android:0.0.10@aar') {
         transitive = true
     }
 
