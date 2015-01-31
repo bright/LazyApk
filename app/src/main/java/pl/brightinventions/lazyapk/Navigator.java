@@ -1,5 +1,6 @@
 package pl.brightinventions.lazyapk;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -48,6 +49,7 @@ public class Navigator {
         startActivity(intent, activity, null);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void startActivity(Intent intent, Activity activity, View sharedView) {
         LOG.trace("Will start intent {} from activity {} (shared view: {})", intent, activity, sharedView);
         if (Build.VERSION.SDK_INT >= 16) {
@@ -58,6 +60,7 @@ public class Navigator {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private Bundle makeSceneTransition(Activity activity, View sharedView) {
         if (Build.VERSION.SDK_INT >= 21) {
             //noinspection unchecked

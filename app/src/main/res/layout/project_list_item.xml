@@ -15,5 +15,5 @@
         android:fontFamily="sans-serif-light"
         android:text="Project Name"
         android:textSize="@dimen/text_size_medium"
-        tools:ignore="UnusedAttribute"/>
+        tools:ignore="HardcodedText,UnusedAttribute"/>
 </RelativeLayout>

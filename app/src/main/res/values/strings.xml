@@ -2,17 +2,12 @@
 <resources>
 
     <string name="app_name">Lazy Apk</string>
-    <string name="menu_sources">Sources</string>
     <string name="sources">Sources</string>
     <string name="no_builds_available">Nothing here yet.</string>
     <string name="add_source">Add</string>
-    <string name="fa_link"></string>
-    <string name="fa_chevron_right"></string>
     <string name="Number">Number:</string>
-    <string name="failed_to_get_external_download_directory">Could not find downloads directory</string>
     <string name="install_apk">Install</string>
     <string name="download">Download</string>
-    <string name="home">Home</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="address">Address</string>
