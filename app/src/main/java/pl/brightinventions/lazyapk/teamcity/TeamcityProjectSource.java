@@ -217,7 +217,7 @@ public class TeamcityProjectSource implements ProjectSource {
                 .flatMapIterable(new Func1<TeamcityBuildArtifactsFiles, Iterable<TeamcityBuildArtifactsFile>>() {
                     @Override
                     public Iterable<TeamcityBuildArtifactsFile> call(TeamcityBuildArtifactsFiles teamcityBuildArtifactsFiles) {
-                        return teamcityBuildArtifactsFiles.files;
+                        return teamcityBuildArtifactsFiles.getChildFiles();
                     }
                 });
     }
