@@ -43,7 +43,9 @@ public class LazyApkApp extends Application {
         notifyDeveloperHandler.notifyWhenDeviceIsShaken();
         configuration.addHandlerToRootLogger(notifyDeveloperHandler);
 
-        CalligraphyConfig.initDefault(R.attr.fontPath);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setFontAttrId(R.attr.fontPath)
+                .build());
 
         DependencyGraph.addModule(new LazyApkModule(this));
 

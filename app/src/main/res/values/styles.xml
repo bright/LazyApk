@@ -2,7 +2,7 @@
            xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!-- Set AppCompat’s color theming attrs -->
         <item name="windowActionBar">false</item>

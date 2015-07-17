@@ -64,6 +64,6 @@ public class ProjectDetailsActivity extends ActionBarActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

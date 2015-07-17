@@ -86,6 +86,6 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         LOG.trace("attachBaseContext {}", newBase);
-        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
