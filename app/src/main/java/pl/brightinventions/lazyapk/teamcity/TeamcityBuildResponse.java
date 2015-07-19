@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.concurrent.TimeUnit;
 
 import pl.brightinventions.lazyapk.ProjectApkSource;
-import pl.brightinventions.lazyapk.ProjectOverview;
 import pl.brightinventions.lazyapk.ProjectSource;
 import pl.brightinventions.lazyapk.R;
 import rx.Observable;
@@ -23,9 +23,9 @@ class TeamcityBuildResponse implements ProjectApkSource {
     String state;
     String branchName;
     String href;
-    Date queuedDate;
-    Date startDate;
-    Date finishDate;
+    DateTime queuedDate;
+    DateTime startDate;
+    DateTime finishDate;
     TeamcityBuildChanges changes = new TeamcityBuildChanges();
     TeamcityBuildLastChanges lastChanges = new TeamcityBuildLastChanges();
     TeamcityBuildArtifactsFiles artifacts = new TeamcityBuildArtifactsFiles();
@@ -75,10 +75,6 @@ class TeamcityBuildResponse implements ProjectApkSource {
         artifacts = buildDetails.artifacts;
     }
 
-    public boolean hasLastChange() {
-        return lastChanges != null && lastChanges.count > 0;
-    }
-
     public void updateLastChangesDetails(TeamcityBuildChange change) {
         lastChanges.updateFirst(change);
     }
@@ -107,5 +103,9 @@ class TeamcityBuildResponse implements ProjectApkSource {
             return lastChanges.first().comment;
         }
         return null;
+    }
+
+    public boolean hasLastChange() {
+        return lastChanges != null && lastChanges.count > 0;
     }
 }

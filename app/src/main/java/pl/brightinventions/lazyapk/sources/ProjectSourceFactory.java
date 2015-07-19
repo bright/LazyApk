@@ -13,6 +13,8 @@ public class ProjectSourceFactory {
     }
 
     public ProjectSource create(ProjectSourceConfiguration config) {
-        return new TeamcityProjectSource(config.getAddress(), new TeamcityCredentials(config.getUserName(), config.getPassword()));
+        TeamcityCredentials credentials = new TeamcityCredentials(config.getUserName(), config.getPassword());
+        TeamcityProjectSource projectSource = new TeamcityProjectSource(config.getAddress(), credentials);
+        return projectSource;
     }
 }

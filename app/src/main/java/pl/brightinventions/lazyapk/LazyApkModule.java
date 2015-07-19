@@ -16,17 +16,18 @@ import pl.brightinventions.lazyapk.teamcity.TeamcityBuildDetailsActivity;
         SourcesActivity.class
 })
 public class LazyApkModule {
+    private Context appContext;
+
     public LazyApkModule(Context appContext) {
         this.appContext = appContext;
     }
-
-    private Context appContext;
 
     @AppContext
     @Provides
     public Context providesAppContext(){
         return appContext;
     }
+
 
     @Provides
     public ApplicationState provideApplicationState(ApplicationStateLifecycleListener state){

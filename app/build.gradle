@@ -52,9 +52,11 @@ dependencies {
 
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
 
+    compile 'net.danlew:android.joda:2.8.1'
+
     compile 'com.jakewharton:butterknife:6.0.0'
 
-    compile 'com.squareup.retrofit:retrofit:1.8.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     compile 'com.netflix.rxjava:rxjava-android:0.20.7'
     compile 'com.netflix.rxjava:rxjava-core:0.20.7'

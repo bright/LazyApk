@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Authenticator;
 import com.squareup.okhttp.OkHttpClient;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Locale;
 
 import pl.brightinventions.lazyapk.DownloadAbleApk;
 import pl.brightinventions.lazyapk.ProjectApkSource;
@@ -82,7 +84,13 @@ public class TeamcityProjectSource implements ProjectSource {
                 return new RestAdapter.Builder()
                         .setEndpoint(address).setClient(retroClient)
                         .setLogLevel(RestAdapter.LogLevel.BASIC)
-                        .setConverter(new GsonConverter(new GsonBuilder().setDateFormat("yyyyMMdd'T'HHmmss").create()))
+                        .setConverter(
+                                new GsonConverter(
+                                        new GsonBuilder().setDateFormat("yyyyMMdd'T'HHmmss")
+                                                .registerTypeAdapter(DateTime.class, new DateTimeDeserializer(Locale.ENGLISH))
+                                                .create()
+                                )
+                        )
                         .setRequestInterceptor(new RequestInterceptor() {
                             @Override
                             public void intercept(RequestFacade request) {

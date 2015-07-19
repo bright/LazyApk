@@ -1,14 +1,15 @@
 package pl.brightinventions.lazyapk.teamcity;
 
+import android.support.annotation.NonNull;
 import android.text.format.DateUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
@@ -40,7 +41,7 @@ class TeamcityApkSourceViewHolder extends MasterDetailsViewHolderOf<ProjectApkSo
         ButterKnife.inject(this, inflate);
         openApkListener = new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(@NonNull View v) {
                 if (currentApkSource != null) {
                     observeOnClick.onNext(currentApkSource);
                 } else {
@@ -73,11 +74,11 @@ class TeamcityApkSourceViewHolder extends MasterDetailsViewHolderOf<ProjectApkSo
     private void updateView(TeamcityBuildResponse apkSourceAt) {
         buildNumber.setText(apkSourceAt.number);
         buildType.setText(apkSourceAt.buildTypeId);
-        Date finishDate = apkSourceAt.finishDate;
+        DateTime finishDate = apkSourceAt.finishDate;
         if (finishDate != null) {
             CharSequence relativeDateTimeString = DateUtils.getRelativeDateTimeString(
                     buildWhen.getContext(),
-                    finishDate.getTime(),
+                    finishDate.toDate().getTime(),
                     DateUtils.MINUTE_IN_MILLIS,
                     DateUtils.WEEK_IN_MILLIS,
                     DateUtils.FORMAT_ABBREV_RELATIVE);
